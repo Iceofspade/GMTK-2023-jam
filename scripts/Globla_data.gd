@@ -1,5 +1,6 @@
 extends Node
-
+signal enemy_die
+signal game_over
 var player:Player = null
 # Called when the node enters the scene tree for the first time.
 func _ready():

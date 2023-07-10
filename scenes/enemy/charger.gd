@@ -42,7 +42,7 @@ func state_manager():
 		return
 
 func state_machine():
-	print(unit_state)
+#	print(unit_state)
 	match unit_state:
 		CHASE:
 			$Hit_Box.monitoring = false

@@ -1,8 +1,45 @@
-[gd_scene load_steps=4 format=3 uid="uid://dg7fmx5ubnavf"]
+[gd_scene load_steps=10 format=3 uid="uid://dg7fmx5ubnavf"]
 
 [ext_resource type="Script" path="res://scenes/skills/launch_projectile.gd" id="1_plx8p"]
 [ext_resource type="PackedScene" uid="uid://bqp6714c5407y" path="res://scenes/generics/projectile.tscn" id="2_icjp4"]
-[ext_resource type="Texture2D" uid="uid://cfe8m4rupolhw" path="res://icon.svg" id="3_lq677"]
+[ext_resource type="Texture2D" uid="uid://ckbwlhks4s0ou" path="res://assets/Textures/magicbullets.png" id="2_vuu84"]
+[ext_resource type="Texture2D" uid="uid://bdkcjmlqejvd8" path="res://assets/Textures/goblins/enemies2.png" id="3_mamp4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s260v"]
+atlas = ExtResource("3_mamp4")
+region = Rect2(32, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b7vfk"]
+atlas = ExtResource("3_mamp4")
+region = Rect2(48, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1hlxs"]
+atlas = ExtResource("3_mamp4")
+region = Rect2(48, 32, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hhroq"]
+atlas = ExtResource("3_mamp4")
+region = Rect2(32, 32, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_w3tby"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s260v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b7vfk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1hlxs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hhroq")
+}],
+"loop": true,
+"name": &"default",
+"speed": 20.0
+}]
 
 [node name="launch_projectile" type="Node2D"]
 script = ExtResource("1_plx8p")
@@ -14,12 +51,23 @@ damage = 5.0
 skill_type = 0
 
 [node name="projectile" parent="." instance=ExtResource("2_icjp4")]
-visible = false
+position = Vector2(-1, -1)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="projectile"]
+texture_filter = 1
+position = Vector2(6, -1)
+rotation = 1.5708
+sprite_frames = SubResource("SpriteFrames_w3tby")
+autoplay = "default"
+frame_progress = 0.406952
 
 [node name="Icon" type="Sprite2D" parent="projectile"]
-position = Vector2(2.38419e-07, 2.38419e-07)
-scale = Vector2(0.125, 0.125)
-texture = ExtResource("3_lq677")
+visible = false
+texture_filter = 1
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("2_vuu84")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
 
 [node name="cooldown_timer" type="Timer" parent="."]
 one_shot = true

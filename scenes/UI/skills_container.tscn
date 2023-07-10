@@ -15,15 +15,17 @@ script = ExtResource("1_h37pv")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
-offset_right = 960.0
-offset_bottom = 192.0
+offset_left = 64.0
+offset_top = 16.0
+offset_right = 688.0
+offset_bottom = 176.0
 color = Color(0.364706, 0.364706, 0.364706, 1)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 64.0
+offset_left = 72.0
 offset_top = 34.0
-offset_right = 896.0
+offset_right = 672.0
 offset_bottom = 162.0
 
 [node name="skill_icon_box" parent="HBoxContainer" instance=ExtResource("2_o2r8b")]
@@ -42,8 +44,3 @@ text = "Skill 2"
 [node name="skill_icon_box4" parent="HBoxContainer" instance=ExtResource("2_o2r8b")]
 layout_mode = 2
 text = "Skill 3"
-
-[node name="skill_icon_box5" parent="HBoxContainer" instance=ExtResource("2_o2r8b")]
-layout_mode = 2
-size_flags_horizontal = 10
-text = "Ultimate"

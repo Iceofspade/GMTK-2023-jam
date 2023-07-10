@@ -2,16 +2,27 @@ extends Enemy
 
 enum {CHASE,ATTACK,IDLE,DEAD}
 var unit_state := IDLE
-
+@onready var health_bar = $"health bar"
 @onready var agent = $NavigationAgent2D
 
 func _ready():
-	$hurtbox.damage = damage
+	$Hurt_Box.damage = damage
+	health_bar.max_value = health
+	health_bar.value = health
 
 func _process(_delta):
 	state_manager()
 	state_machine()
 
+func update_health(change:int):
+	if health-change <= 0:
+		health = 0
+		is_dead = true
+	else:
+		health-=change
+	health_bar.value = health
+	print("HP is now "+str(health))
+	
 func update_pathfinding():
 	agent.target_position = GlobalData.player.global_position
  
@@ -46,14 +57,22 @@ func state_machine():
 		CHASE:
 			position += pathfinding()
 			move_and_slide()
+			$AnimatedSprite2D.play("Run")
 			pass
 		ATTACK:
-			$hurtbox.monitoring = false
+			$Hurt_Box.monitoring = false
 			await get_tree().create_timer(0.6).timeout
-			$hurtbox.monitoring = true
+			$Hurt_Box.monitoring = true
 			pass
 		IDLE:
 			pass
 		DEAD:
+			GlobalData.emit_signal("enemy_die")
 			queue_free()
 			pass
+
+func _on_hurt_box_area_entered(area):
+	if area is Hit_Box and area.is_in_group($Hurt_Box.damage_group):
+		area.emit_signal("hit_box_take_damage",damage)
+		
+	pass # Replace with function body.

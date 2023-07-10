@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://duhy5fikpsc64"]
+
+[ext_resource type="Script" path="res://scenes/skills/melee_attack.gd" id="1_44oth"]
+[ext_resource type="Script" path="res://scenes/generics/hurtbox.gd" id="2_oelot"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o7thx"]
+size = Vector2(34, 80)
+
+[node name="melee_attack" type="Node2D"]
+script = ExtResource("1_44oth")
+damage = 10.0
+skill_type = 0
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+visible = false
+position = Vector2(8, 0)
+polygon = PackedVector2Array(8, -40, 32, -32, 40, -16, 43, -1, 40, 16, 24, 32, 8, 40, 16, 24, 24, 16, 32, 0, 24, -16, 16, -32)
+
+[node name="Hurt_Box" type="Area2D" parent="Polygon2D"]
+position = Vector2(-8, 0)
+monitoring = false
+script = ExtResource("2_oelot")
+damage_group = "enemy"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Polygon2D/Hurt_Box"]
+position = Vector2(33, 0)
+shape = SubResource("RectangleShape2D_o7thx")
+
+[node name="cooldown" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="area_entered" from="Polygon2D/Hurt_Box" to="Polygon2D/Hurt_Box" method="_on_area_entered"]
+[connection signal="timeout" from="cooldown" to="." method="_on_cooldown_timeout"]

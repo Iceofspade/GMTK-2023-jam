@@ -27,7 +27,7 @@ func create_projectile():
 	bullet.speed = projectile_speed
 	bullet.monitorable = true
 	bullet.monitorable = true
-	bullet.damaging_group = "enemy" 
+	bullet.damage_group = "enemy" 
 	bullet.damage = damage
 	get_tree().root.add_child(bullet)
 	print("bullet was made")

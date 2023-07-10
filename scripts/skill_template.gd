@@ -18,9 +18,9 @@ func _ready():
 	cooldown_started.connect(_on_cooldown_started)
 	cooldown_finished.connect(_on_cooldown_finished)
 # The core trigger for any skill.
+
 func activate_skill():
 	print("An empty skill was used!!!")
-	
 	
 func _on_cooldown_finished():
 	on_cooldown = false

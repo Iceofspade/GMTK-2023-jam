@@ -38,6 +38,7 @@ shape = SubResource("RectangleShape2D_cysw0")
 
 [node name="Hurt_Box" type="Area2D" parent="."]
 script = ExtResource("4_4oht3")
+damage_group = "player"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurt_Box"]
 position = Vector2(0.5, -14)

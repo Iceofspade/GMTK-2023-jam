@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3 uid="uid://dpfu6h6ns06d6"]
+
+[ext_resource type="Script" path="res://scenes/skills/Magic_shield.gd" id="1_ac355"]
+
+[node name="Magic_shield" type="Node2D"]
+script = ExtResource("1_ac355")
+skill_type = 0
+
+[node name="imunnity_timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="cooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_left = -68.0
+offset_top = -58.0
+offset_right = 61.0
+offset_bottom = 60.0
+color = Color(0.886275, 0.184314, 0.517647, 0.603922)
+
+[connection signal="timeout" from="imunnity_timer" to="." method="_on_imunnity_timer_timeout"]
+[connection signal="timeout" from="cooldown" to="." method="_on_cooldown_timeout"]

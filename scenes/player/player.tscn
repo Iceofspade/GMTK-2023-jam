@@ -1,34 +1,132 @@
-[gd_scene load_steps=6 format=3 uid="uid://cxpqquvw7hbre"]
+[gd_scene load_steps=18 format=3 uid="uid://cxpqquvw7hbre"]
 
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_kslpw"]
-[ext_resource type="Texture2D" uid="uid://cfe8m4rupolhw" path="res://icon.svg" id="2_qp67u"]
+[ext_resource type="Texture2D" uid="uid://82ogkgchqayi" path="res://assets/Textures/player/dungeongoblin1.png" id="2_gar84"]
 [ext_resource type="Script" path="res://scenes/player/skills_manager.gd" id="3_ccahg"]
-[ext_resource type="PackedScene" uid="uid://bq1un3g8gby7l" path="res://scenes/generics/Hit_box.tscn" id="4_17df8"]
+[ext_resource type="PackedScene" uid="uid://c3bvm55qg0q3m" path="res://scenes/generics/health_bar.tscn" id="5_7j41f"]
+[ext_resource type="Script" path="res://scenes/generics/Hitbox.gd" id="5_u66cr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qvksh"]
+atlas = ExtResource("2_gar84")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j701c"]
+atlas = ExtResource("2_gar84")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_30eox"]
+atlas = ExtResource("2_gar84")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i0aui"]
+atlas = ExtResource("2_gar84")
+region = Rect2(0, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_36plt"]
+atlas = ExtResource("2_gar84")
+region = Rect2(48, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2x0kl"]
+atlas = ExtResource("2_gar84")
+region = Rect2(96, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6k511"]
+atlas = ExtResource("2_gar84")
+region = Rect2(0, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_psifh"]
+atlas = ExtResource("2_gar84")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oyks2"]
+atlas = ExtResource("2_gar84")
+region = Rect2(48, 48, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vs8c4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qvksh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j701c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_30eox")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i0aui")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_36plt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2x0kl")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6k511")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_psifh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oyks2")
+}],
+"loop": true,
+"name": &"moving",
+"speed": 10.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_32y7h"]
-size = Vector2(40, 40)
+size = Vector2(22, 36)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ns0ts"]
+size = Vector2(24, 50)
 
 [node name="player" type="CharacterBody2D"]
 script = ExtResource("1_kslpw")
 speed = 30000.0
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.304688, 0.3125)
-texture = ExtResource("2_qp67u")
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -32.5978)
+scale = Vector2(1.2985, 1.3318)
+sprite_frames = SubResource("SpriteFrames_vs8c4")
+animation = &"Idle"
+frame_progress = 0.275892
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -18)
 shape = SubResource("RectangleShape2D_32y7h")
 
 [node name="skills_manager" type="Node2D" parent="."]
 script = ExtResource("3_ccahg")
-skill_list = Array[String](["doge", "launch_projectile"])
+skill_list = Array[String](["doge", "launch_projectile", "Magic_shield", "melee_attack"])
 
 [node name="bullet_spawerMarker2D" type="Marker2D" parent="."]
 position = Vector2(2, -19)
 
-[node name="Hit_box" parent="." groups=["player"] instance=ExtResource("4_17df8")]
-scale = Vector2(2, 2)
+[node name="health bar" parent="." instance=ExtResource("5_7j41f")]
+offset_left = -41.0
+offset_top = -1.0
+offset_right = 35.0
+offset_bottom = 12.0
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Hit_Box" type="Area2D" parent="." groups=["player"]]
+script = ExtResource("5_u66cr")
 
-[connection signal="hit_box_take_damage" from="Hit_box" to="." method="_on_hit_box_hit_box_take_damage"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hit_Box"]
+position = Vector2(0, -25)
+shape = SubResource("RectangleShape2D_ns0ts")
+
+[connection signal="hit_box_take_damage" from="Hit_Box" to="." method="_on_hit_box_hit_box_take_damage"]

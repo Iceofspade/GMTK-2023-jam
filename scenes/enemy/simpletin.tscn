@@ -1,40 +1,136 @@
-[gd_scene load_steps=6 format=3 uid="uid://bnwpxwqqiedre"]
+[gd_scene load_steps=18 format=3 uid="uid://bnwpxwqqiedre"]
 
 [ext_resource type="Script" path="res://scenes/enemy/simpletin.gd" id="1_0honc"]
-[ext_resource type="Texture2D" uid="uid://cfe8m4rupolhw" path="res://icon.svg" id="2_3ecg2"]
-[ext_resource type="PackedScene" uid="uid://bq1un3g8gby7l" path="res://scenes/generics/Hit_box.tscn" id="3_gvq6x"]
-[ext_resource type="PackedScene" uid="uid://cy2oom3q77rli" path="res://scenes/generics/hurtbox.tscn" id="3_tfuw0"]
+[ext_resource type="Texture2D" uid="uid://bdkcjmlqejvd8" path="res://assets/Textures/goblins/enemies2.png" id="2_oppfq"]
+[ext_resource type="Texture2D" uid="uid://bvulpqrl6sm6p" path="res://assets/Textures/goblins/enemies1.png" id="3_40eiv"]
+[ext_resource type="Script" path="res://scenes/generics/hurtbox.gd" id="5_i6yhe"]
+[ext_resource type="PackedScene" uid="uid://c3bvm55qg0q3m" path="res://scenes/generics/health_bar.tscn" id="6_420fb"]
+[ext_resource type="Script" path="res://scenes/generics/Hitbox.gd" id="6_dqd8j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rg65s"]
-size = Vector2(64, 63)
+size = Vector2(13, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d3ea7"]
+atlas = ExtResource("2_oppfq")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xe7o1"]
+atlas = ExtResource("2_oppfq")
+region = Rect2(0, 32, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0xmjc"]
+atlas = ExtResource("2_oppfq")
+region = Rect2(16, 32, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_efyy1"]
+atlas = ExtResource("2_oppfq")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cypg1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d3ea7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xe7o1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0xmjc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_efyy1")
+}],
+"loop": true,
+"name": &"Run",
+"speed": 9.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w7g5o"]
+size = Vector2(17, 33)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nd7eo"]
+size = Vector2(17, 33)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d2fr3"]
+bg_color = Color(0.0509804, 0.0509804, 0.0509804, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lhtkj"]
+bg_color = Color(0, 0.541176, 0.219608, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8, 0.8, 0.8, 0)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[sub_resource type="Theme" id="Theme_1avbm"]
+ProgressBar/styles/background = SubResource("StyleBoxFlat_d2fr3")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_lhtkj")
 
 [node name="The simpletin" type="CharacterBody2D"]
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_0honc")
+health = 20
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(32, -0.5)
+position = Vector2(-5.5, -16)
 shape = SubResource("RectangleShape2D_rg65s")
 
-[node name="Icon" type="Sprite2D" parent="."]
-modulate = Color(0.960784, 0, 0.639216, 1)
-position = Vector2(32, 0)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_3ecg2")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-6, -28)
+scale = Vector2(1.75, 1.75)
+sprite_frames = SubResource("SpriteFrames_cypg1")
+animation = &"Run"
 
-[node name="Hit_box" parent="." groups=["enemy"] instance=ExtResource("3_gvq6x")]
-position = Vector2(32, -3.8147e-06)
-scale = Vector2(3.2, 3.2)
+[node name="sword" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(-13, -14)
+scale = Vector2(1.375, 1.375)
+texture = ExtResource("3_40eiv")
+region_enabled = true
+region_rect = Rect2(0, 16, 16, 16)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true
 
-[node name="hurtbox" parent="." instance=ExtResource("3_tfuw0")]
-position = Vector2(32, -3.8147e-06)
-scale = Vector2(3.2, 3.2)
+[node name="Hurt_Box" type="Area2D" parent="."]
+script = ExtResource("5_i6yhe")
+damage_group = "player"
 
-[connection signal="hit_box_take_damage" from="Hit_box" to="." method="_on_hit_box_hit_box_take_damage"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurt_Box"]
+position = Vector2(-5.5, -16.5)
+shape = SubResource("RectangleShape2D_w7g5o")
+
+[node name="Hit_Box" type="Area2D" parent="." groups=["enemy"]]
+script = ExtResource("6_dqd8j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hit_Box"]
+position = Vector2(-5.5, -16.5)
+shape = SubResource("RectangleShape2D_nd7eo")
+
+[node name="health bar" parent="." instance=ExtResource("6_420fb")]
+offset_left = -25.0
+offset_right = 14.0
+offset_bottom = 7.0
+theme = SubResource("Theme_1avbm")
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="area_entered" from="Hurt_Box" to="." method="_on_hurt_box_area_entered"]
+[connection signal="hit_box_take_damage" from="Hit_Box" to="." method="_on_hit_box_hit_box_take_damage"]
